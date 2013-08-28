@@ -98,7 +98,7 @@ class CrunchBase(object):
 
     def __getJsonData(self, namespace, query='', options=None):
         if query is not None:
-            query = query.replace(' ', '+')
+            query = query.replace(' ', '')
             query = unicodedata.normalize(
                 'NFKD', unicode(query)).encode('ascii', 'ignore')
 
