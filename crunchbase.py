@@ -6,6 +6,7 @@ Copyright (c) 2010 Apurva Mehta <mehta.apurva@gmail.com>
 __author__ = 'Apurva Mehta'
 __version__ = '1.0.2'
 
+import urllib
 import urllib2
 import simplejson as json
 
@@ -15,6 +16,9 @@ API_URL = API_BASE_URL + "v" + "/" + API_VERSION + "/"
 
 
 class CrunchbaseAPI(object):
+    def __init__(self, api_key=None):
+        self.api_key = api_key
+
     def __webRequest(self, url):
         try:
             response = urllib2.urlopen(url)
@@ -23,8 +27,27 @@ class CrunchbaseAPI(object):
         except urllib2.HTTPError as e:
             raise CrunchBaseError(e)
 
-    def __getJsonData(self, namespace, query=""):
-        url = API_URL + namespace + query + ".js"
+    def __getJsonData(self, namespace, query=None, options=None):
+        if query is None:
+            query = ""
+        else:
+            query += ".js"
+
+        if options is None:
+            options = {}
+
+        if self.api_key:
+            options["api_key"] = self.api_key
+
+        option_str = ""
+        if options:
+            option_str = "?%s" % urllib.urlencode(options)
+
+        url = "%s%s%s%s" % (API_URL,
+                           namespace,
+                           query,
+                           option_str)
+
         response_dict = json.loads(self.__webRequest(url))
         return CrunchBaseResponse(**response_dict)
 
