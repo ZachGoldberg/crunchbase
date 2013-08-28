@@ -100,13 +100,16 @@ class CrunchBase(object):
         if query is not None:
             query = query.replace(' ', '+')
             query = unicodedata.normalize('NFKD',
-                                          query.decode('utf-8')) \
+                                          query.decode('utf-8', 'ignore')) \
                                           .encode('ascii', 'ignore')
 
         if query:
             query += ".js"
         else:
-            query = ''
+            if namespace and not query:
+                query = '.js'
+            else:
+                query = ''
 
         if options is None:
             options = {}
