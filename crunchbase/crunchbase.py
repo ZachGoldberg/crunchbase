@@ -97,11 +97,11 @@ class CrunchBase(object):
                                            "page": page})
 
     def __getJsonData(self, namespace, query='', options=None):
-
-        query = query.replace(' ', '+')
-        query = unicodedata.normalize('NFKD',
-                                      query.decode('utf-8')) \
-            .encode('ascii', 'ignore')
+        if query is not None:
+            query = query.replace(' ', '+')
+            query = unicodedata.normalize('NFKD',
+                                          query.decode('utf-8')) \
+                                          .encode('ascii', 'ignore')
 
         if query:
             query += ".js"
