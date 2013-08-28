@@ -50,7 +50,7 @@ class CrunchBase(object):
                                    self.__cache[url]['etag'])
                 if 'last_modified' in self.__cache[url]:
                     logger.debug('Adding Last-Modified to request header: '\
-                        + self.__cache[url]['last_modified'])
+                        + (self.__cache[url].get('last_modified') or ''))
                     req.add_header('If-Modified-Since',
                                    self.__cache[url]['last_modified'])
 
@@ -92,7 +92,7 @@ class CrunchBase(object):
     def search(self, query, page='1'):
         """This returns result of search query in JSON format"""
 
-        return self.__getJsonData("search", query=None,
+        return self.__getJsonData('', query="search",
                                   options={"query": query,
                                            "page": page})
 
@@ -105,6 +105,8 @@ class CrunchBase(object):
 
         if query:
             query += ".js"
+        else:
+            query = ''
 
         if options is None:
             options = {}
@@ -124,6 +126,7 @@ class CrunchBase(object):
         response = self.__webRequest(url)
         if response is not None:
             response = json.loads(response, strict=False)
+
         return response
 
     def getData(self, namespace, query=''):
