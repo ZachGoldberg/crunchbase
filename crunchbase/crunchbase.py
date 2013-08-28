@@ -89,12 +89,11 @@ class CrunchBase:
     def search(self, query, page='1'):
         """This returns result of search query in JSON format"""
 
-        url = API_URL + 'search.js?api_key='
-        + self.api_key + '&query='\ + query + '&page=' + page
-        response = json.loads(self.__webRequest(url))
-        return response
+        return self.__getJsonData("search", query=None,
+                                  options={"query": query,
+                                           "page": page})
 
-    def __getJsonData(self, namespace, query=''):
+    def __getJsonData(self, namespace, query='', options=None):
 
         query = query.replace(' ', '+')
         query = unicodedata.normalize('NFKD',
