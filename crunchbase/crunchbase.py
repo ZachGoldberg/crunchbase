@@ -18,6 +18,7 @@ Edits made by Alexander Pease <alexander@usv.com> to...
 __author__ = 'Apurva Mehta, Patrick Reilly, Daniel Mendalka'
 __version__ = '1.0.3'
 
+import json
 import logging
 import unicodedata
 import urllib
@@ -114,7 +115,6 @@ class CrunchBase(object):
         option_str = ""
         if options:
             option_str = "?%s" % urllib.urlencode(options)
-
 
         url = "%s%s%s%s" % (API_URL,
                            namespace,
@@ -230,8 +230,7 @@ class CrunchBaseError(Exception):
 
 
 class NotModifiedHandler(urllib2.BaseHandler):
-
-    def http_error_304(self, req, fp, code, message, headers):
+    def http_error_304(self, req, fp, code, _, headers):
         addinfourl = urllib2.addinfourl(fp, headers, req.get_full_url())
         addinfourl.code = code
         return addinfourl
