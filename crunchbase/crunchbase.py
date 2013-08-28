@@ -18,17 +18,19 @@ Edits made by Alexander Pease <alexander@usv.com> to...
 __author__ = 'Apurva Mehta, Patrick Reilly, Daniel Mendalka'
 __version__ = '1.0.3'
 
+import logging
+import unicodedata
 import urllib
 import urllib2
-import json
-import unicodedata
+
 
 API_BASE_URL = 'http://api.crunchbase.com/'
 API_VERSION = '1'
 API_URL = API_BASE_URL + 'v' + '/' + API_VERSION + '/'
+logger = logging.getLogger('crunchbase')
 
 
-class CrunchBase:
+class CrunchBase(object):
 
     def __init__(self, api_key, cache={}):
         self.api_key = api_key
@@ -41,20 +43,20 @@ class CrunchBase:
 
             if url in self.__cache:
                 if 'etag' in self.__cache[url]:
-                    print 'Adding ETag to request header: '\
-                        + self.__cache[url]['etag']
+                    logger.debug('Adding ETag to request header: '\
+                        + self.__cache[url]['etag'])
                     req.add_header('If-None-Match',
                                    self.__cache[url]['etag'])
                 if 'last_modified' in self.__cache[url]:
-                    print 'Adding Last-Modified to request header: '\
-                        + self.__cache[url]['last_modified']
+                    logger.debug('Adding Last-Modified to request header: '\
+                        + self.__cache[url]['last_modified'])
                     req.add_header('If-Modified-Since',
                                    self.__cache[url]['last_modified'])
 
             url_handle = opener.open(req)
 
             if hasattr(url_handle, 'code') and url_handle.code == 304:
-                print 'Got 304 response, no body send'
+                logger.debug('Got 304 response, no body send')
                 return self.__cache[url]['response']
             else:
                 headers = url_handle.info()
@@ -76,8 +78,8 @@ class CrunchBase:
                 self.__cache[url] = cache_data
                 return response
         except urllib2.HTTPError, e:
-
-            print 'HTTPError calling ' + url
+            logger.warn('HTTPError calling ' + url)
+            logger.warn(str(e))
             return None
 
     def getCache(self, url=None):
