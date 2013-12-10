@@ -15,14 +15,5 @@ Follow the steps below to start using the CrunchBase API:
 
 * Register for a user account.
 * Apply for an API key.
-* Browse the documentation.
+* Browse the documentation. ( http://developer.crunchbase.com/io-docs or http://developer.crunchbase.com/docs )
 * Join a discussion in the forums.
-
-API Usage Terms
-
-The CrunchBase API can currently be accessed without an API key. Going forward, we'd like to encourage developers to register and sign up for an API access key and start using it in every call made to the API. We will require usage of the access key beginning December 1, 2012.
-
-
-
-http://developer.crunchbase.com/io-docs
-
