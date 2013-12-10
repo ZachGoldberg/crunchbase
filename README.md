@@ -9,8 +9,6 @@ API Documentation
 
 The CrunchBase API provides a RESTful interface to the data found on CrunchBase. The response is in JSON format.
 
-Register
-
 Follow the steps below to start using the CrunchBase API:
 
 * Register for a user account.
