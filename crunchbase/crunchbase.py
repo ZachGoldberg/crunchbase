@@ -13,6 +13,9 @@ Edits made by Alexander Pease <alexander@usv.com> to...
   * Set strict=false for json.loads(). Avoids some errors in the CB API.
   * Sanitize strings used as argument for __webRequest
 
+Edits made by Lars Nielsen <lars.j.nielsen@gmail.com> to...
+  * Add entity field search
+
 """
 
 __author__ = 'Apurva Mehta, Patrick Reilly, Daniel Mendalka'
@@ -89,10 +92,17 @@ class CrunchBase(object):
         else:
             return self.__cache
 
-    def search(self, query, page='1'):
+    def search(self, query, entity='', field='', page='1'):
         """This returns result of search query in JSON format"""
 
-        return self.__getJsonData('', query="search",
+        if entity and field:
+            return self.__getJsonData('', query="search",
+                                  options={"query": query,
+                                           "entity": entity,
+                                           "field": field,
+                                           "page": page})
+        else:
+            return self.__getJsonData('', query="search",
                                   options={"query": query,
                                            "page": page})
 
